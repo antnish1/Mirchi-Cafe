@@ -7,6 +7,8 @@ let currentTable = null;
 
 // LOAD MENU
 window.onload = async () => {
+    showLoader();   // 🔥 start loader
+  
   try {
     const res = await fetch(API_URL, {
       method: "GET",
@@ -24,6 +26,8 @@ window.onload = async () => {
     alert("Menu loading failed ❌ " + err);
     console.error(err);
   }
+  hideLoader();   // 🔥 stop loader
+  
 };
 
 // CATEGORY BUTTONS
@@ -128,7 +132,7 @@ async function generateBill() {
   if (!currentTable) return showPopup("Select table", false);
   if (cart.length === 0) return showPopup("Cart empty", false);
 
-  showLoader();
+  showLoader(); // 🔥 start loader
 
   try {
     const res = await fetch(API_URL, {
@@ -142,28 +146,30 @@ async function generateBill() {
 
     const data = await res.json();
 
-    hideLoader();
-
     if (data.status !== "success") {
+      hideLoader();
       showPopup(data.message, false);
       return;
     }
 
-    showPopup("Bill Generated: " + data.billId, true);
+    // 🔥 simulate processing feel
+    setTimeout(async () => {
+      await loadTodaySales();
 
+      cart = [];
+      total = 0;
+      renderCart();
 
-    
-    await loadTodaySales();   // 🔥 ADD THIS LINE
-    cart = [];
-    total = 0;
-    renderCart();
+      hideLoader();
+      showPopup("Bill Generated: " + data.billId, true);
+
+    }, 500);
 
   } catch (err) {
     hideLoader();
     showPopup("Error generating bill", false);
   }
 }
-
 
 function showLoader() {
   document.getElementById("loader").style.display = "flex";
