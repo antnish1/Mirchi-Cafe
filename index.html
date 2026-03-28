@@ -23,6 +23,39 @@ body::before {
   z-index: -1;
 }
 
+
+
+.header-banner {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+
+  
+}
+
+.banner-logo {
+  width: 100%;
+  height: 80px;
+  object-fit: contain;   /* 🔥 prevents distortion */
+  border-radius: 12px;
+}
+
+.header-info {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 12px 8px 12px;
+}
+
+.sales {
+  background: rgba(0,0,0,0.1);
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+  
+
+  
 /* HEADER */
 .header {
   display: flex;
@@ -35,11 +68,7 @@ body::before {
   height: 35px;
 }
 
-.sales {
-  background: rgba(0,0,0,0.1);
-  padding: 6px 10px;
-  border-radius: 10px;
-}
+
 
 /* MAIN CARD */
 .main-card {
@@ -196,9 +225,12 @@ body::before {
 <body>
 
 <!-- HEADER -->
-<div class="header">
-  <img src="logo.png" class="logo-img">
-  <div class="sales">₹ <span id="todaySale">0</span></div>
+<div class="header-banner">
+  <img src="logo.png" class="banner-logo">
+</div>
+
+<div class="header-info">
+  <div class="sales">Today Sale ₹ <span id="todaySale">0</span></div>
 </div>
 
 <!-- MAIN GLASS CARD -->
