@@ -422,43 +422,90 @@ async function shareBill() {
 async function openSummary() {
   showLoader();
 
+  const div = document.getElementById("summaryContent");
+
+  const today = new Date().toISOString().split("T")[0];
+
+  div.innerHTML = `
+    <h3 style="text-align:center;">📊 Sale Summary</h3>
+
+    <input type="date" id="summaryDate" value="${today}" style="width:100%; margin:10px 0; padding:6px;">
+
+    <div id="summaryStats"></div>
+
+    <div id="summaryList" style="margin-top:10px;"></div>
+  `;
+
+  document.getElementById("summaryModal").style.display = "flex";
+
+  await loadSummaryData(today);
+
+  hideLoader();
+}
+
+
+async function loadSummaryData(date) {
   try {
-    const res = await fetch(API_URL + "&type=summary");
-    const data = await res.json();
+    // 🔥 STATS
+    const statsRes = await fetch(API_URL + "&type=summary");
+    const stats = await statsRes.json();
 
-    const div = document.getElementById("summaryContent");
-
-    div.innerHTML = `
-      <h3 style="text-align:center;">📊 Sale Summary</h3>
-
-      <hr>
-
+    document.getElementById("summaryStats").innerHTML = `
       <div style="display:flex; justify-content:space-between;">
         <span>Total Sales</span>
-        <strong>₹${data.total || 0}</strong>
+        <strong>₹${stats.total}</strong>
       </div>
-
       <div style="display:flex; justify-content:space-between;">
         <span>Total Bills</span>
-        <strong>${data.bills || 0}</strong>
-      </div>
-
-      <div style="display:flex; justify-content:space-between;">
-        <span>Items Sold</span>
-        <strong>${data.items || 0}</strong>
+        <strong>${stats.bills}</strong>
       </div>
     `;
 
-    document.getElementById("summaryModal").style.display = "flex";
+    // 🔥 DETAILS
+    const res = await fetch(API_URL + `&type=details&date=${date}`);
+    const data = await res.json();
+
+    const listDiv = document.getElementById("summaryList");
+
+    if (data.length === 0) {
+      listDiv.innerHTML = "<small>No records</small>";
+      return;
+    }
+
+    listDiv.innerHTML = data.map(b => `
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        padding:8px;
+        margin-bottom:6px;
+        background:#f1f5f9;
+        border-radius:10px;
+      ">
+        <div>
+          <div><strong>#${b.billId}</strong></div>
+          <small>Table ${b.table}</small>
+        </div>
+
+        <div style="text-align:right;">
+          <div>₹${b.total}</div>
+          <small>${b.time}</small>
+        </div>
+      </div>
+    `).join("");
 
   } catch (err) {
-    showPopup("Failed to load summary", false);
+    showPopup("Failed to load details", false);
   }
-
-  hideLoader();
 }
 
 
 function closeSummary() {
   document.getElementById("summaryModal").style.display = "none";
 }
+
+
+document.addEventListener("change", async (e) => {
+  if (e.target.id === "summaryDate") {
+    await loadSummaryData(e.target.value);
+  }
+});
