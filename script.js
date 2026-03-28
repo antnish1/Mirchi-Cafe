@@ -187,6 +187,7 @@ async function generateBill() {
     const res = await fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({
+        billId: billCounter,   // 🔥 SEND THIS
         table: currentTable,
         cart: cart,
         total: total
