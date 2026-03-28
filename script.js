@@ -28,13 +28,20 @@ window.onload = async () => {
 // CATEGORY BUTTONS
 function loadCategories() {
   const cats = [...new Set(menu.map(m => m.category))];
-
   const div = document.getElementById("categories");
 
   cats.forEach(cat => {
     const btn = document.createElement("button");
     btn.innerText = cat;
-    btn.onclick = () => loadItems(cat);
+
+    btn.onclick = () => {
+      document.querySelectorAll(".categories button")
+        .forEach(b => b.classList.remove("active"));
+
+      btn.classList.add("active");
+      loadItems(cat);
+    };
+
     div.appendChild(btn);
   });
 
@@ -99,30 +106,40 @@ function selectTable(t, el) {
 
 // GENERATE BILL
 async function generateBill() {
-  if (!currentTable) return alert("Select table");
-  if (cart.length === 0) return alert("Empty cart");
+  if (!currentTable) return showPopup("Select table", false);
+  if (cart.length === 0) return showPopup("Cart empty", false);
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      table: currentTable,
-      cart: cart,
-      total: total
-    })
-  });
+  showLoader();
 
-  const data = await res.json();
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        table: currentTable,
+        cart: cart,
+        total: total
+      })
+    });
 
-  if (data.status !== "success") {
-    alert(data.message);
-    return;
+    const data = await res.json();
+
+    hideLoader();
+
+    if (data.status !== "success") {
+      showPopup(data.message, false);
+      return;
+    }
+
+    showPopup("Bill Generated: " + data.billId, true);
+
+    cart = [];
+    total = 0;
+    renderCart();
+
+  } catch (err) {
+    hideLoader();
+    showPopup("Error generating bill", false);
   }
-
-  alert("Bill: " + data.billId);
-
-  cart = [];
-  total = 0;
-  renderCart();
 }
 
 
