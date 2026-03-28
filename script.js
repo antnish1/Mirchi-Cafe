@@ -87,12 +87,21 @@ function addItem(item) {
 function renderCart() {
   const div = document.getElementById("cartItems");
 
-  div.innerHTML = cart.map(c =>
-    `<div>${c.item} ₹${c.amount}</div>`
-  ).join("");
+  if (cart.length === 0) {
+    div.innerHTML = "<small>No items selected</small>";
+    document.getElementById("total").innerText = 0;
+    return;
+  }
+
+  div.innerHTML = cart.map(c => `
+    <div class="cart-item">
+      <span>${c.item} x${c.qty}</span>
+      <span>₹${c.amount}</span>
+    </div>
+  `).join("");
 
   document.getElementById("total").innerText = total;
-}
+}}
 
 // TABLE SELECT
 function selectTable(t, el) {
