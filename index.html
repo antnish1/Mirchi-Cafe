@@ -69,18 +69,33 @@ header {
 .items {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 10px;
+  gap: 6px;
+  padding: 8px;
+  max-height: 35vh;   /* 🔥 limit height */
+  overflow-y: auto;
 }
 
 .item {
-  background: white;
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: 0.2s;
+  padding: 8px;
+  font-size: 13px;
+  border-radius: 10px;
 }
+
+.cart-section {
+  background: #ECFDF5;
+  margin: 8px;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid #A7F3D0;
+}
+
+.cart-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #065F46;
+}
+  
+  
 
 .item:active {
   transform: scale(0.95);
@@ -94,7 +109,8 @@ header {
 .cart-item {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  font-size: 14px;
+  padding: 4px 0;
 }
 
 /* TOTAL SECTION */
@@ -179,7 +195,10 @@ header {
 
 <div class="items" id="items"></div>
 
-<div class="cart-list" id="cartItems"></div>
+<div class="cart-section">
+  <div class="cart-title">🧾 Selected Items</div>
+  <div id="cartItems"></div>
+</div>
 
 <!-- TOTAL SECTION -->
 <div class="total-box">
