@@ -4,6 +4,7 @@ let cart = [];
 let total = 0;
 let currentCategory = "";
 let currentTable = null;
+let billCounter = localStorage.getItem("billCounter") || 1000;
 const categoryIcons = {
   "BURGER": "🍔",
   "CHINESE": "🥡",
@@ -195,7 +196,10 @@ async function generateBill() {
     const data = await res.json();
 
     const billId = data.billId;
+    const billId = billCounter;
 
+    billCounter++;
+    localStorage.setItem("billCounter", billCounter);
     // 🔥 SHOW PREVIEW BEFORE CLEARING
     showBillPreview(billId);
     
@@ -300,15 +304,46 @@ function sendWhatsAppBill(billId) {
 function showBillPreview(billId) {
   const div = document.getElementById("billContent");
 
+  const now = new Date();
+  const date = now.toLocaleDateString();
+  const time = now.toLocaleTimeString();
+
   let html = `
-    <h3 style="text-align:center;">Mirchi Cafe</h3>
-    <p>Bill ID: ${billId}</p>
+    <div style="text-align:center;">
+      <img src="logo.png" style="height:50px; margin-bottom:6px;">
+      <h2 style="margin:0;">Mirchi Cafe</h2>
+    </div>
+
+    <hr>
+
+    <div style="font-size:13px;">
+      <div style="display:flex; justify-content:space-between;">
+        <span>Bill No:</span>
+        <span>${billId}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span>Date:</span>
+        <span>${date}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span>Time:</span>
+        <span>${time}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span>Table:</span>
+        <span>${currentTable}</span>
+      </div>
+    </div>
+
     <hr>
   `;
 
   cart.forEach(c => {
     html += `
-      <div style="display:flex; justify-content:space-between;">
+      <div style="display:flex; justify-content:space-between; font-size:13px;">
         <span>${c.item} x${c.qty}</span>
         <span>₹${c.amount}</span>
       </div>
@@ -317,7 +352,17 @@ function showBillPreview(billId) {
 
   html += `
     <hr>
-    <h3>Total: ₹${total}</h3>
+
+    <div style="display:flex; justify-content:space-between; font-weight:bold;">
+      <span>Total</span>
+      <span>₹${total}</span>
+    </div>
+
+    <hr>
+
+    <div style="text-align:center; font-size:12px;">
+      Thank you! Visit Again 🙏
+    </div>
   `;
 
   div.innerHTML = html;
