@@ -96,7 +96,7 @@ function loadItems(category) {
     itemsDiv.innerHTML = "";
 
   menu.filter(m => m.category === category)
-    .forEach(item => {
+    .forEach((item, index) => {
       const div = document.createElement("div");
       div.className = "item";
       div.style.animationDelay = `${index * 0.05}s`;
