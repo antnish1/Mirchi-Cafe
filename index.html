@@ -293,7 +293,13 @@ body {
   justify-content: space-between;
 }
 
-
+.bill-wrapper {
+  background: white;
+  padding: 14px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+}
   
 .bill-btn {
   padding: 12px 18px;
@@ -365,7 +371,6 @@ body {
   border-radius: 12px;
   width: 90%;
   max-width: 320px;
-
   font-family: monospace;
 }
 
@@ -373,7 +378,7 @@ body {
 .bill-actions {
   display: flex;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .bill-actions button {
@@ -381,8 +386,11 @@ body {
   padding: 10px;
   border: none;
   border-radius: 8px;
+
   background: #0F172A;
   color: white;
+
+  font-size: 13px;
 }
 
   
@@ -492,12 +500,16 @@ body {
   
 
 <div id="billModal" class="bill-modal">
-  <div class="bill-content" id="billContent"></div>
+  <div class="bill-wrapper">
 
-  <div class="bill-actions">
-    <button onclick="downloadBill()">Save JPG</button>
-    <button onclick="shareBill()">Share</button>
-    <button onclick="closeBill()">Close</button>
+    <div class="bill-content" id="billContent"></div>
+
+    <div class="bill-actions">
+      <button onclick="downloadBill()">Save</button>
+      <button onclick="shareBill()">Share</button>
+      <button onclick="closeBill()">Close</button>
+    </div>
+
   </div>
 </div>
 
