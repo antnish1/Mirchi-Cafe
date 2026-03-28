@@ -20,7 +20,19 @@ window.onload = async () => {
     });
 
     const text = await res.text();
-    menu = JSON.parse(text);
+    
+    try {
+      menu = JSON.parse(text);
+    } catch (err) {
+      console.error("Invalid JSON:", text);
+      showPopup("Menu load error", false);
+      return;
+    }
+    
+    if (!Array.isArray(menu) || menu.length === 0) {
+      showPopup("Menu is empty", false);
+      return;
+    }
 
     loadCategories();
     loadTodaySales();
@@ -37,8 +49,10 @@ window.onload = async () => {
 
 // CATEGORY BUTTONS
 function loadCategories() {
-  const cats = [...new Set(menu.map(m => m.category))];
   const div = document.getElementById("categories");
+  div.innerHTML = "";   // 🔥 ADD THIS
+
+  const cats = [...new Set(menu.map(m => m.category))];
 
   cats.forEach(cat => {
     const btn = document.createElement("button");
@@ -55,7 +69,7 @@ function loadCategories() {
     div.appendChild(btn);
   });
 
-  loadItems(cats[0]);
+  if (cats.length > 0) loadItems(cats[0]);
 }
 
 // LOAD ITEMS
