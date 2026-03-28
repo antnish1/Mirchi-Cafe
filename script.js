@@ -37,9 +37,16 @@ function getPrice(itemName) {
 }
 
 // 🪑 SELECT TABLE
-function selectTable(tableNo) {
+function selectTable(tableNo, el) {
   currentTable = tableNo;
+
   document.getElementById("tableTitle").innerText = "Table " + tableNo;
+
+  document.querySelectorAll(".tables button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  el.classList.add("active");
 
   cart = [];
   total = 0;
