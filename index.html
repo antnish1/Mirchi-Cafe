@@ -8,267 +8,175 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #F8FAFC;
+  background: url('logo.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* BLUR OVERLAY */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(248,250,252,0.85);
+  backdrop-filter: blur(8px);
+  z-index: -1;
 }
 
 /* HEADER */
-header {
-  background: #0F172A;
-  color: white;
-  padding: 14px;
-  text-align: center;
-  font-weight: bold;
-  letter-spacing: 1px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
 }
 
-/* TABLE BUTTONS */
+.logo-img {
+  height: 35px;
+}
+
+.sales {
+  background: rgba(0,0,0,0.1);
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+/* MAIN CARD */
+.main-card {
+  margin: 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  padding-bottom: 80px;
+}
+
+/* TABLES */
 .tables {
   display: flex;
-  gap: 10px;
-  padding: 12px;
+  margin: 10px;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .tables button {
   flex: 1;
-  padding: 18px;              /* 🔥 bigger */
-  border-radius: 14px;
+  padding: 16px;
   border: none;
-  background: #1F2937;
-  color: white;
-  font-size: 16px;
+  background: #E5E7EB;
   font-weight: 600;
-  transition: 0.2s;
 }
 
 .tables button.active {
-  background: #22C55E;
-  transform: scale(1.05);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #0F172A;
+  background: linear-gradient(135deg, #22C55E, #16A34A);
   color: white;
-  padding: 12px 14px;
 }
 
-  
-.logo {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.sales {
-  font-size: 14px;
-  background: #1E293B;
-  padding: 6px 10px;
-  border-radius: 8px;
-}
-  
-  
-/* CATEGORY */
+/* CATEGORIES */
 .categories {
   display: flex;
   overflow-x: auto;
-  gap: 8px;
+  gap: 10px;
   padding: 10px;
-  background: #F8FAFC;
 }
 
-
-.categories::-webkit-scrollbar {
-  display: none;
-}
-  
 .categories button {
-  flex: 0 0 auto;
-  padding: 10px 16px;         /* 🔥 bigger */
+  padding: 10px 18px;
   border-radius: 999px;
   border: none;
-  background: #E2E8F0;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: 0.2s;
+  background: #E5E7EB;
 }
 
-
 .categories button.active {
-  background: #0F172A;
+  background: #374151;
   color: white;
 }
 
-  
-.top-section {
-  background: #FFFFFF;
-  padding: 10px;
-  border-bottom: 1px solid #E5E7EB;
-}
-  
 /* ITEMS */
 .items {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  padding: 8px;
-  max-height: 35vh;   /* 🔥 limit height */
-  overflow-y: auto;
+  gap: 10px;
+  padding: 10px;
 }
 
 .item {
-  background: #FFFFFF;
-  border-radius: 12px;
+  background: white;
+  border-radius: 16px;
   padding: 10px;
   text-align: center;
-  border: 1px solid #E5E7EB;
-  font-size: 13px;
 }
 
+.item-name {
+  font-weight: 600;
+}
+
+.item-price {
+  color: #6B7280;
+}
+
+/* CART */
 .cart-section {
-  background: #FFFFFF; /* same clean light */
-  margin: 8px;
-  border-radius: 14px;
+  margin: 10px;
+  border-radius: 16px;
+  background: white;
   padding: 12px;
-  border: 1px solid #E5E7EB;
 }
 
 .cart-title {
   font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 10px; /* 🔥 better spacing */
-  color: #111827;
-  letter-spacing: 0.3px;
-}
-  
-.remove-btn {
-  margin-left: 8px;
-  border: none;
-  background: #EF4444;
-  color: white;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
-/* LEFT SIDE */
-.item-name {
-  color: #111827;
-}
-
-/* RIGHT SIDE */
-.item-price {
-  font-weight: 500;
-  color: #374151;
-}
-  
-.item:active {
-  transform: scale(0.95);
-}
-
-/* CART */
-.cart-list {
-  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .cart-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 6px 0;
-  font-size: 14px;
-  border-bottom: 1px solid #F1F5F9;
 }
 
-.cart-item:last-child {
-  border-bottom: none;
-}
-  
-/* TOTAL SECTION */
+/* TOTAL */
 .total-box {
   position: fixed;
-  bottom: 0;
-  width: 100%;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  border-radius: 18px;
   background: white;
-  border-top: 1px solid #ddd;
   padding: 12px;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
-  backdrop-filter: blur(10px);
 }
 
-.total-amount {
-  font-size: 22px;
-  font-weight: bold;
-  color: #0F172A;
-}
-
-/* BILL BUTTON */
 .bill-btn {
-  width: 100%;
-  padding: 18px;
-  border: none;
+  margin-top: 6px;
+  padding: 16px;
   border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
+  border: none;
+  width: 100%;
+  background: linear-gradient(135deg, #22C55E, #84CC16);
   color: white;
-
-  background: linear-gradient(135deg, #22C55E, #16A34A); /* 🔥 modern gradient */
-
-  box-shadow: 0 6px 16px rgba(34,197,94,0.3);
-  transition: 0.2s;
 }
-
-.bill-btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-}
-
-
-
-  
 
 /* LOADER */
 .loader {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 23, 42, 0.6); /* dark overlay */
-  display: flex;
+  background: rgba(0,0,0,0.4);
+  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 999;
 }
 
-/* spinner */
 .spinner {
-  width: 45px;
-  height: 45px;
-  border: 4px solid #fff;
+  width: 40px;
+  height: 40px;
+  border: 4px solid white;
   border-top: 4px solid #22C55E;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-
-  
-.loader div {
-  width:40px; height:40px;
-  border:4px solid #fff;
-  border-top:4px solid transparent;
-  border-radius:50%;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
-
 /* POPUP */
 .popup {
   position: fixed;
@@ -287,29 +195,37 @@ header {
 
 <body>
 
-<header class="header">
-  <div class="logo">MIRCHI Café</div>
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.png" class="logo-img">
   <div class="sales">₹ <span id="todaySale">0</span></div>
-</header>
-
-<div class="top-section">
-  
-<div class="tables">
-  <button onclick="selectTable(1,this)">T1</button>
-  <button onclick="selectTable(2,this)">T2</button>
-  <button onclick="selectTable(3,this)">T3</button>
 </div>
 
-<div class="categories" id="categories"></div>
+<!-- MAIN GLASS CARD -->
+<div class="main-card">
 
-<div class="items" id="items"></div>
+  <!-- TABLES -->
+  <div class="tables">
+    <button onclick="selectTable(1,this)">T1</button>
+    <button onclick="selectTable(2,this)">T2</button>
+    <button onclick="selectTable(3,this)">T3</button>
+  </div>
 
-<div class="cart-section">
-  <div class="cart-title">Current Order</div>
-  <div id="cartItems"></div>
+  <!-- CATEGORIES -->
+  <div class="categories" id="categories"></div>
+
+  <!-- ITEMS -->
+  <div class="items" id="items"></div>
+
+  <!-- CURRENT ORDER -->
+  <div class="cart-section">
+    <div class="cart-title">Current Order</div>
+    <div id="cartItems"></div>
+  </div>
+
 </div>
 
-<!-- TOTAL SECTION -->
+<!-- TOTAL + BILL -->
 <div class="total-box">
   <div class="total-amount">₹ <span id="total">0</span></div>
   <button class="bill-btn" onclick="generateBill()">Generate Bill</button>
@@ -319,9 +235,6 @@ header {
 <div class="loader" id="loader">
   <div class="spinner"></div>
 </div>
-
-<!-- POPUP -->
-<div class="popup" id="popup"></div>
 
 <script src="script.js"></script>
 
