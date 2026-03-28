@@ -1,4 +1,4 @@
-const API_URL = "YOUR_APPS_SCRIPT_URL";
+const API_URL = "https://script.google.com/macros/s/AKfycbyg8pQC29qyMFHyqFCbs0E3ldOTD7snYF5UGHlAsX6_72yemm61M9d39hy2mS771iws_w/exec";
 
 let menu = [];
 let cart = [];
