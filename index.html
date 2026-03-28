@@ -3,34 +3,118 @@
 <head>
   <title>FCV POS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    body { font-family: Arial; padding: 10px; }
-    button { padding: 15px; margin: 5px; width: 30%; }
-    .cart { margin-top: 20px; }
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      margin: 0;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .tables {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+
+    .tables button {
+      flex: 1;
+      margin: 5px;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      background: #007bff;
+      color: white;
+    }
+
+    .container {
+      padding: 10px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .add-btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .cart {
+      margin-top: 15px;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+
+    .total {
+      font-size: 20px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .bill-btn {
+      width: 100%;
+      padding: 15px;
+      background: orange;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 
 <body>
 
-<h2>FCV Café POS</h2>
+<header>FCV Café POS</header>
 
-<div>
+<div class="tables">
   <button onclick="selectTable(1)">Table 1</button>
   <button onclick="selectTable(2)">Table 2</button>
   <button onclick="selectTable(3)">Table 3</button>
 </div>
 
-<h3 id="tableTitle"></h3>
+<div class="container">
+
+<h3 id="tableTitle">Select Table</h3>
 
 <select id="item"></select>
-<input type="number" id="qty" placeholder="Qty">
-<button onclick="addItem()">Add</button>
+<input type="number" id="qty" placeholder="Enter Quantity">
+
+<button class="add-btn" onclick="addItem()">+ Add Item</button>
 
 <div class="cart" id="cart"></div>
 
-<h3>Total: ₹<span id="total">0</span></h3>
+<div class="total">Total: ₹<span id="total">0</span></div>
 
-<button onclick="generateBill()">Generate Bill</button>
+<button class="bill-btn" onclick="generateBill()">Generate Bill</button>
+
+</div>
 
 <script src="script.js"></script>
 
