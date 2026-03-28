@@ -393,6 +393,32 @@ body {
   font-size: 13px;
 }
 
+
+
+.summary-btn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s;
+}
+
+/* tap effect */
+.summary-btn:active {
+  transform: scale(0.9);
+  background: rgba(255,255,255,0.25);
+}
   
 /* LOADER */
 .loader {
@@ -446,8 +472,16 @@ body {
 <div class="top-bar">
   <div class="brand">Mirchi Cafe</div>
 
-  <div class="today-sale">
-    ₹ <span id="todaySale">0</span>
+  <div style="display:flex; align-items:center; gap:8px;">
+    
+    <button class="summary-btn" onclick="openSummary()">
+      📊
+    </button>
+
+    <div class="today-sale">
+      ₹ <span id="todaySale">0</span>
+    </div>
+
   </div>
 </div>
 
@@ -513,6 +547,18 @@ body {
   </div>
 </div>
 
+<div id="summaryModal" class="bill-modal">
+  <div class="bill-wrapper">
+
+    <div id="summaryContent"></div>
+
+    <div class="bill-actions">
+      <button onclick="closeSummary()">Close</button>
+    </div>
+
+  </div>
+</div>
+  
 
   
 <script src="script.js"></script>
