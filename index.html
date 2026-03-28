@@ -2,56 +2,70 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIRCHI CAFE</title>
+<title>FCV POS</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: #f2f2f2;
+  font-family: 'Segoe UI', sans-serif;
+  background: #F8FAFC;
 }
 
 /* HEADER */
 header {
-  background: #000;
+  background: #0F172A;
   color: white;
-  padding: 12px;
+  padding: 14px;
   text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
-/* TABLES */
+/* TABLE BUTTONS */
 .tables {
   display: flex;
+  gap: 8px;
+  padding: 10px;
 }
 
 .tables button {
   flex: 1;
   padding: 14px;
+  border-radius: 12px;
   border: none;
-  background: #007bff;
-  color: white;
+  background: #E2E8F0;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
 .tables button.active {
-  background: green;
+  background: #22C55E;
+  color: white;
+  transform: scale(1.05);
 }
 
 /* CATEGORY */
 .categories {
   display: flex;
   overflow-x: auto;
-  background: white;
+  padding: 8px;
 }
 
 .categories button {
-  padding: 10px;
-  border: none;
-  background: #eee;
-  margin: 5px;
+  padding: 8px 14px;
+  margin-right: 8px;
   border-radius: 20px;
+  border: none;
+  background: #E2E8F0;
+  white-space: nowrap;
 }
 
-/* ITEMS GRID */
+.categories button.active {
+  background: #0F172A;
+  color: white;
+}
+
+/* ITEMS */
 .items {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -61,56 +75,125 @@ header {
 
 .item {
   background: white;
+  border-radius: 12px;
   padding: 12px;
-  border-radius: 10px;
   text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: 0.2s;
 }
 
-/* CART (BOTTOM FIXED) */
-.cart {
+.item:active {
+  transform: scale(0.95);
+}
+
+/* CART */
+.cart-list {
+  padding: 10px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+/* TOTAL SECTION */
+.total-box {
   position: fixed;
   bottom: 0;
   width: 100%;
   background: white;
-  border-top: 1px solid #ccc;
-  padding: 10px;
+  border-top: 1px solid #ddd;
+  padding: 12px;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
 }
 
-.total {
+.total-amount {
+  font-size: 22px;
   font-weight: bold;
+  color: #0F172A;
 }
 
+/* BILL BUTTON */
 .bill-btn {
   width: 100%;
-  padding: 15px;
-  background: orange;
-  border: none;
+  padding: 16px;
+  background: #F59E0B;
   color: white;
-  border-radius: 10px;
-  margin-top: 5px;
+  border: none;
+  border-radius: 12px;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+/* LOADER */
+.loader {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.loader div {
+  width:40px; height:40px;
+  border:4px solid #fff;
+  border-top:4px solid transparent;
+  border-radius:50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  display: none;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<header>MIRCHI CAFE</header>
+<header>FCV POS</header>
 
 <div class="tables">
-  <button onclick="selectTable(1, this)">T1</button>
-  <button onclick="selectTable(2, this)">T2</button>
-  <button onclick="selectTable(3, this)">T3</button>
+  <button onclick="selectTable(1,this)">T1</button>
+  <button onclick="selectTable(2,this)">T2</button>
+  <button onclick="selectTable(3,this)">T3</button>
 </div>
 
 <div class="categories" id="categories"></div>
 
 <div class="items" id="items"></div>
 
-<div class="cart">
-  <div id="cartItems"></div>
-  <div class="total">Total ₹<span id="total">0</span></div>
+<div class="cart-list" id="cartItems"></div>
+
+<!-- TOTAL SECTION -->
+<div class="total-box">
+  <div class="total-amount">₹ <span id="total">0</span></div>
   <button class="bill-btn" onclick="generateBill()">Generate Bill</button>
 </div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div></div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup"></div>
 
 <script src="script.js"></script>
 
