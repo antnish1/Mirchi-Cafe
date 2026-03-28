@@ -24,22 +24,50 @@ header {
 /* TABLE BUTTONS */
 .tables {
   display: flex;
-  gap: 8px;
-  padding: 10px;
+  gap: 10px;
+  padding: 12px;
 }
 
 .tables button {
+  flex: 1;
+  padding: 18px;              /* 🔥 bigger */
+  border-radius: 14px;
+  border: none;
   background: #1F2937;
   color: white;
-  border-radius: 10px;
+  font-size: 16px;
   font-weight: 600;
+  transition: 0.2s;
 }
 
 .tables button.active {
   background: #22C55E;
+  transform: scale(1.05);
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0F172A;
+  color: white;
+  padding: 12px 14px;
+}
 
+  
+.logo {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.sales {
+  font-size: 14px;
+  background: #1E293B;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+  
+  
 /* CATEGORY */
 .categories {
   background: #FFFFFF;
