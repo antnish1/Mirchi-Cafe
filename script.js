@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyg8pQC29qyMFHyqFCbs0E3ldOTD7snYF5UGHlAsX6_72yemm61M9d39hy2mS771iws_w/exec" + "?t=" + new Date().getTime();
+const API_URL = "https://script.google.com/macros/s/AKfycbxPHSENx6Of4Bw9fNFGErnwjss_BaxRs72Lqxm9hkgt5yM92j6rN-CA0Z3n-CSIWD-XSQ/exec" + "?t=" + new Date().getTime();
 let menu = [];
 let cart = [];
 let total = 0;
