@@ -121,31 +121,49 @@ function selectTable(t, el) {
 
 // GENERATE BILL
 async function generateBill() {
-  if (!currentTable) return alert("Select table");
-  if (cart.length === 0) return alert("Empty cart");
+  try {
+    if (!currentTable) {
+      showPopup("Select table", false);
+      return;
+    }
 
-  showLoader();
+    if (cart.length === 0) {
+      showPopup("Cart empty", false);
+      return;
+    }
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      table: currentTable,
-      cart: cart,
-      total: total
-    })
-  });
+    showLoader();
 
-  const data = await res.json();
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        table: currentTable,
+        cart: cart,
+        total: total
+      })
+    });
 
-  cart = [];
-  total = 0;
-  renderCart();
+    const data = await res.json();
 
-  await loadTodaySales();
+    if (data.status !== "success") {
+      throw new Error(data.message);
+    }
 
-  hideLoader();
+    cart = [];
+    total = 0;
+    renderCart();
+
+    await loadTodaySales();
+
+    hideLoader();
+    showPopup("Bill Generated", true);
+
+  } catch (err) {
+    hideLoader();
+    showPopup("Error: " + err.message, false);
+    console.error(err);
+  }
 }
-
 function showLoader() {
   document.getElementById("loader").style.display = "flex";
 }
