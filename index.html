@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FCV POS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; padding: 10px; }
+    button { padding: 15px; margin: 5px; width: 30%; }
+    .cart { margin-top: 20px; }
+  </style>
+</head>
+
+<body>
+
+<h2>FCV Café POS</h2>
+
+<div>
+  <button onclick="selectTable(1)">Table 1</button>
+  <button onclick="selectTable(2)">Table 2</button>
+  <button onclick="selectTable(3)">Table 3</button>
+</div>
+
+<h3 id="tableTitle"></h3>
+
+<select id="item"></select>
+<input type="number" id="qty" placeholder="Qty">
+<button onclick="addItem()">Add</button>
+
+<div class="cart" id="cart"></div>
+
+<h3>Total: ₹<span id="total">0</span></h3>
+
+<button onclick="generateBill()">Generate Bill</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
