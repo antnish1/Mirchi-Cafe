@@ -416,3 +416,48 @@ async function shareBill() {
     }, "image/jpeg");
   });
 }
+
+
+async function openSummary() {
+  showLoader();
+
+  try {
+    const res = await fetch(API_URL + "&type=summary");
+    const data = await res.json();
+
+    const div = document.getElementById("summaryContent");
+
+    div.innerHTML = `
+      <h3 style="text-align:center;">📊 Sale Summary</h3>
+
+      <hr>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span>Total Sales</span>
+        <strong>₹${data.total || 0}</strong>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span>Total Bills</span>
+        <strong>${data.bills || 0}</strong>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span>Items Sold</span>
+        <strong>${data.items || 0}</strong>
+      </div>
+    `;
+
+    document.getElementById("summaryModal").style.display = "flex";
+
+  } catch (err) {
+    showPopup("Failed to load summary", false);
+  }
+
+  hideLoader();
+}
+
+
+function closeSummary() {
+  document.getElementById("summaryModal").style.display = "none";
+}
