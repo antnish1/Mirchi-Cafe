@@ -524,21 +524,21 @@ function showItemsPlaceholder() {
   itemsDiv.innerHTML = `
     <div style="
       display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100%;
-      min-height:200px;
       flex-direction:column;
-      opacity:0.7;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      height:100%;
+      text-align:center;
+      opacity:0.8;
     ">
-      <img src="logo.png" style="width:120px; margin-bottom:10px;">
+      <img src="logo.png" style="width:120px; margin-bottom:12px;">
       <div style="font-size:14px; color:#64748b;">
         Select a category
       </div>
     </div>
   `;
 }
-
 
 function closeSummary() {
   document.getElementById("summaryModal").style.display = "none";
