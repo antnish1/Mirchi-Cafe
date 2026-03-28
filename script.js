@@ -1,142 +1,115 @@
-let currentTable = null;
+const API_URL = "YOUR_APPS_SCRIPT_URL";
+
+let menu = [];
 let cart = [];
 let total = 0;
-let menuData = [];
+let currentCategory = "";
+let currentTable = null;
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzokbDWTGUIqSDLnYvpkAs5YXdCCPbbl0AdvQZLojNHRvvekGc4NBe_esPNr4hgACDq/exec";
+// LOAD MENU
+window.onload = async () => {
+  const res = await fetch(API_URL);
+  menu = await res.json();
 
-// 🔥 LOAD MENU
-window.onload = async function () {
-  try {
-    const res = await fetch(API_URL);
-    menuData = await res.json();
-    loadMenuDropdown();
-  } catch (err) {
-    alert("Menu loading failed ❌");
-    console.error(err);
-  }
+  loadCategories();
 };
 
-// 🔽 LOAD MENU
-function loadMenuDropdown() {
-  const select = document.getElementById("item");
-  select.innerHTML = `<option value="">Select Item</option>`;
+// CATEGORY BUTTONS
+function loadCategories() {
+  const cats = [...new Set(menu.map(m => m.category))];
 
-  menuData.forEach(item => {
-    let option = document.createElement("option");
-    option.value = item.name;
-    option.text = `${item.name} (₹${item.price})`;
-    select.appendChild(option);
+  const div = document.getElementById("categories");
+
+  cats.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.innerText = cat;
+    btn.onclick = () => loadItems(cat);
+    div.appendChild(btn);
   });
+
+  loadItems(cats[0]);
 }
 
-// 🔍 GET PRICE
-function getPrice(itemName) {
-  const item = menuData.find(i => i.name === itemName);
-  return item ? Number(item.price) : 0;
+// LOAD ITEMS
+function loadItems(category) {
+  currentCategory = category;
+
+  const itemsDiv = document.getElementById("items");
+  itemsDiv.innerHTML = "";
+
+  menu.filter(m => m.category === category)
+      .forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <b>${item.name}</b><br>
+          ₹${item.price}
+        `;
+
+        div.onclick = () => addItem(item);
+
+        itemsDiv.appendChild(div);
+      });
 }
 
-// 🪑 SELECT TABLE
-function selectTable(tableNo, el) {
-  currentTable = tableNo;
-
-  document.getElementById("tableTitle").innerText = "Table " + tableNo;
-
-  document.querySelectorAll(".tables button").forEach(btn => {
-    btn.classList.remove("active");
+// ADD ITEM
+function addItem(item) {
+  cart.push({
+    item: item.name,
+    qty: 1,
+    price: item.price,
+    amount: item.price
   });
+
+  total += item.price;
+  renderCart();
+}
+
+// RENDER CART
+function renderCart() {
+  const div = document.getElementById("cartItems");
+
+  div.innerHTML = cart.map(c =>
+    `<div>${c.item} ₹${c.amount}</div>`
+  ).join("");
+
+  document.getElementById("total").innerText = total;
+}
+
+// TABLE SELECT
+function selectTable(t, el) {
+  currentTable = t;
+
+  document.querySelectorAll(".tables button")
+    .forEach(b => b.classList.remove("active"));
 
   el.classList.add("active");
+}
+
+// GENERATE BILL
+async function generateBill() {
+  if (!currentTable) return alert("Select table");
+  if (cart.length === 0) return alert("Empty cart");
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      table: currentTable,
+      cart: cart,
+      total: total
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.status !== "success") {
+    alert(data.message);
+    return;
+  }
+
+  alert("Bill: " + data.billId);
 
   cart = [];
   total = 0;
   renderCart();
-}
-
-// ➕ ADD ITEM (FIXED)
-function addItem() {
-  const item = document.getElementById("item").value;
-  const qty = Number(document.getElementById("qty").value);
-
-  // 🔥 VALIDATION
-  if (!currentTable) {
-    alert("Select table first");
-    return;
-  }
-
-  if (!item) {
-    alert("Select item");
-    return;
-  }
-
-  if (!qty || qty <= 0) {
-    alert("Enter valid quantity");
-    return;
-  }
-
-  const price = getPrice(item);
-  const amount = price * qty;
-
-  cart.push({ item, qty, price, amount });
-  total += amount;
-
-  document.getElementById("qty").value = "";
-
-  renderCart();
-}
-
-// 🧾 RENDER CART
-function renderCart() {
-  const cartDiv = document.getElementById("cart");
-
-  if (cart.length === 0) {
-    cartDiv.innerHTML = "<p>No items</p>";
-    document.getElementById("total").innerText = "0";
-    return;
-  }
-
-  let html = "";
-
-  cart.forEach((c, index) => {
-    html += `
-      <div class="cart-item">
-        <span>${c.item} x ${c.qty}</span>
-        <span>₹${c.amount}</span>
-      </div>
-    `;
-  });
-
-  cartDiv.innerHTML = html;
-  document.getElementById("total").innerText = total;
-}
-
-// 🧾 GENERATE BILL
-async function generateBill() {
-  if (cart.length === 0) {
-    alert("Cart is empty");
-    return;
-  }
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        table: currentTable,
-        cart: cart,
-        total: total
-      })
-    });
-
-    const data = await res.json();
-
-    alert("Bill Generated ✅ " + data.billId);
-
-    cart = [];
-    total = 0;
-    renderCart();
-
-  } catch (err) {
-    alert("Billing failed ❌");
-    console.error(err);
-  }
 }
