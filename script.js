@@ -98,12 +98,11 @@ function loadItems(category) {
 
   menu
     .filter(m => m.category === category)
-    .forEach((item, index) => {   // ✅ FIX HERE
+    .forEach((item, index) => {
 
       const div = document.createElement("div");
       div.className = "item";
 
-      // stagger animation
       div.style.animationDelay = `${index * 0.05}s`;
 
       div.innerHTML = `
