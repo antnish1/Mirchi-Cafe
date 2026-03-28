@@ -104,16 +104,25 @@ function addItem(item) {
 function renderCart() {
   const div = document.getElementById("cartItems");
 
-  div.innerHTML = cart.map(c => `
+  if (cart.length === 0) {
+    div.innerHTML = "<small>No items added</small>";
+    document.getElementById("total").innerText = 0;
+    return;
+  }
+
+  div.innerHTML = cart.map((c, index) => `
     <div class="cart-item">
       <span>${c.item} x${c.qty}</span>
-      <span>₹${c.amount}</span>
+
+      <div style="display:flex; align-items:center;">
+        <span class="item-price">₹${c.amount}</span>
+        <button onclick="removeItem(${index})" class="remove-btn">×</button>
+      </div>
     </div>
   `).join("");
 
   document.getElementById("total").innerText = total;
 }
-
 // TABLE SELECT
 function selectTable(t, el) {
   currentTable = t;
