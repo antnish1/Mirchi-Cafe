@@ -73,17 +73,23 @@ function loadItems(category) {
 
 // ADD ITEM
 function addItem(item) {
-  cart.push({
-    item: item.name,
-    qty: 1,
-    price: item.price,
-    amount: item.price
-  });
+  const existing = cart.find(c => c.item === item.name);
 
-  total += item.price;
+  if (existing) {
+    existing.qty += 1;
+    existing.amount = existing.qty * existing.price;
+  } else {
+    cart.push({
+      item: item.name,
+      qty: 1,
+      price: item.price,
+      amount: item.price
+    });
+  }
+
+  total = cart.reduce((sum, i) => sum + i.amount, 0);
   renderCart();
 }
-
 // RENDER CART
 function renderCart() {
   const div = document.getElementById("cartItems");
@@ -94,10 +100,13 @@ function renderCart() {
     return;
   }
 
-  div.innerHTML = cart.map(c => `
+  div.innerHTML = cart.map((c, index) => `
     <div class="cart-item">
       <span class="item-name">${c.item} x${c.qty}</span>
-      <span class="item-price">₹${c.amount}</span>
+      <div>
+        <span class="item-price">₹${c.amount}</span>
+        <button onclick="removeItem(${index})" class="remove-btn">✕</button>
+      </div>
     </div>
   `).join("");
 
@@ -191,4 +200,10 @@ async function loadTodaySales() {
   } catch (err) {
     console.log("Sales fetch failed");
   }
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  total = cart.reduce((sum, i) => sum + i.amount, 0);
+  renderCart();
 }
