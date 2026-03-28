@@ -328,3 +328,24 @@ function showBillPreview(billId) {
 function closeBill() {
   document.getElementById("billModal").style.display = "none";
 }
+
+
+function downloadBill() {
+  const bill = document.getElementById("billContent");
+
+  html2canvas(bill).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "bill.jpg";
+    link.href = canvas.toDataURL("image/jpeg");
+    link.click();
+  });
+}
+
+
+function shareBill() {
+  const text = document.getElementById("billContent").innerText;
+
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+  window.open(url, "_blank");
+}
