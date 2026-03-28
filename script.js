@@ -171,3 +171,16 @@ function showPopup(msg, success = true) {
     popup.style.display = "none";
   }, 2000);
 }
+
+
+async function loadTodaySales() {
+  try {
+    const res = await fetch(API_URL + "&type=today");
+    const data = await res.json();
+
+    document.getElementById("todaySale").innerText = data.total || 0;
+
+  } catch (err) {
+    console.log("Sales fetch failed");
+  }
+}
