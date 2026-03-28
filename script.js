@@ -99,6 +99,7 @@ function loadItems(category) {
     .forEach(item => {
       const div = document.createElement("div");
       div.className = "item";
+      div.style.animationDelay = `${index * 0.05}s`;
 
     div.innerHTML = `
       <div class="item-icon">
