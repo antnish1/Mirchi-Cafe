@@ -18,7 +18,8 @@ window.onload = async () => {
     menu = JSON.parse(text);         // 👈 manual parse
 
     loadCategories();
-
+    loadTodaySales(); // 🔥 added
+    
   } catch (err) {
     alert("Menu loading failed ❌ " + err);
     console.error(err);
