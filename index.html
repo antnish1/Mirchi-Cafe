@@ -32,9 +32,30 @@ body::before {
   padding: 10px;
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(10px);
+}
+
+.total-amount {
+  font-size: 26px;        /* 🔥 bigger */
+  font-weight: 700;       /* 🔥 bold */
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.remove-btn {
+  margin-left: 8px;
+  border: none;
+  background: #FECACA;   /* light pink */
+  color: #DC2626;
+  border-radius: 50%;    /* 🔥 circular */
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
   
-}
 
 .banner-logo {
   width: 100%;
@@ -131,12 +152,18 @@ body::before {
 }
 
 .item {
-  background: white;
+  background: rgba(255,255,255,0.85);  /* 🔥 transparent */
+  backdrop-filter: blur(6px);
   border-radius: 16px;
   padding: 10px;
   text-align: center;
 }
 
+
+.main-card {
+  background: rgba(255,255,255,0.6);  /* more transparent */
+}
+  
 .item-name {
   font-weight: 600;
 }
@@ -270,6 +297,12 @@ body::before {
   <div class="spinner"></div>
 </div>
 
+<div>
+  <span class="item-price">₹${c.amount}</span>
+  <button onclick="removeItem(${index})" class="remove-btn">×</button>
+</div>
+
+  
 <script src="script.js"></script>
 
 </body>
