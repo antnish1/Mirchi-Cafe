@@ -7,8 +7,11 @@ let currentTable = null;
 
 // LOAD MENU
 window.onload = async () => {
-    showLoader();   // 🔥 start loader
-  
+  showLoader();
+
+  // 🔥 FORCE UI to render loader first
+  await new Promise(resolve => setTimeout(resolve, 100));
+
   try {
     const res = await fetch(API_URL, {
       method: "GET",
@@ -16,17 +19,19 @@ window.onload = async () => {
       redirect: "follow"
     });
 
-    const text = await res.text();   // 👈 important
-    menu = JSON.parse(text);         // 👈 manual parse
+    const text = await res.text();
+    menu = JSON.parse(text);
 
     loadCategories();
-    loadTodaySales(); // 🔥 added
-    
+    loadTodaySales();
+
   } catch (err) {
-    alert("Menu loading failed ❌ " + err);
+    showPopup("Menu loading failed", false);
     console.error(err);
   }
-  hideLoader();   // 🔥 stop loader
+
+  hideLoader();
+};
   
 };
 
@@ -121,8 +126,6 @@ function selectTable(t, el) {
 
 // GENERATE BILL
 async function generateBill() {
-  console.log("Button clicked"); // 🔍 debug
-
   if (!currentTable) {
     showPopup("Select table", false);
     return;
@@ -134,6 +137,9 @@ async function generateBill() {
   }
 
   showLoader();
+
+  // 🔥 force render
+  await new Promise(resolve => setTimeout(resolve, 100));
 
   try {
     const res = await fetch(API_URL, {
@@ -147,8 +153,6 @@ async function generateBill() {
 
     const data = await res.json();
 
-    console.log(data); // 🔍 debug
-
     cart = [];
     total = 0;
     renderCart();
@@ -160,11 +164,9 @@ async function generateBill() {
 
   } catch (err) {
     hideLoader();
-    console.error(err);
     showPopup("Error generating bill", false);
   }
 }
-
 
 
 function showLoader() {
