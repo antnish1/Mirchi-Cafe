@@ -340,6 +340,52 @@ body {
   transform: scale(0.96);
 }
 
+
+/* MODAL */
+.bill-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.6);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+/* BILL CARD */
+.bill-content {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+
+  font-family: monospace;
+}
+
+/* ACTIONS */
+.bill-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.bill-actions button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #0F172A;
+  color: white;
+}
+
+  
 /* LOADER */
 .loader {
   position: fixed;
@@ -444,6 +490,18 @@ body {
 
 <div id="popup" class="popup"></div>
   
+
+<div id="billModal" class="bill-modal">
+  <div class="bill-content" id="billContent"></div>
+
+  <div class="bill-actions">
+    <button onclick="downloadBill()">Save JPG</button>
+    <button onclick="shareBill()">Share</button>
+    <button onclick="closeBill()">Close</button>
+  </div>
+</div>
+
+
   
 <script src="script.js"></script>
 
