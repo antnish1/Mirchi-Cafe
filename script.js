@@ -151,11 +151,6 @@ async function generateBill() {
 
     showPopup("Bill Generated: " + data.billId, true);
 
-    // 🔥 WhatsApp option
-      const confirmSend = confirm("Send bill on WhatsApp?");
-      if (confirmSend) {
-        sendWhatsAppBill(data.billId);
-      }
 
     
     await loadTodaySales();   // 🔥 ADD THIS LINE
