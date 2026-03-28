@@ -141,7 +141,7 @@ async function generateBill() {
     }
 
     showPopup("Bill Generated: " + data.billId, true);
-
+    await loadTodaySales();   // 🔥 ADD THIS LINE
     cart = [];
     total = 0;
     renderCart();
@@ -179,7 +179,14 @@ async function loadTodaySales() {
     const res = await fetch(API_URL + "&type=today");
     const data = await res.json();
 
-    document.getElementById("todaySale").innerText = data.total || 0;
+    const el = document.getElementById("todaySale");
+
+    el.style.opacity = 0.5;
+
+    setTimeout(() => {
+      el.innerText = data.total || 0;
+      el.style.opacity = 1;
+    }, 200);
 
   } catch (err) {
     console.log("Sales fetch failed");
