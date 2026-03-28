@@ -150,6 +150,14 @@ async function generateBill() {
     }
 
     showPopup("Bill Generated: " + data.billId, true);
+
+    // 🔥 WhatsApp option
+      const confirmSend = confirm("Send bill on WhatsApp?");
+      if (confirmSend) {
+        sendWhatsAppBill(data.billId);
+      }
+
+    
     await loadTodaySales();   // 🔥 ADD THIS LINE
     cart = [];
     total = 0;
@@ -206,4 +214,25 @@ function removeItem(index) {
   cart.splice(index, 1);
   total = cart.reduce((sum, i) => sum + i.amount, 0);
   renderCart();
+}
+
+
+
+function sendWhatsAppBill(billId) {
+  let message = `🧾 *FCV Café Bill*\n\n`;
+  message += `Bill ID: ${billId}\n\n`;
+
+  cart.forEach(c => {
+    message += `${c.item} x${c.qty} = ₹${c.amount}\n`;
+  });
+
+  message += `\nTotal: ₹${total}`;
+
+  const phone = prompt("Enter WhatsApp Number (with country code)");
+
+  if (!phone) return;
+
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
 }
