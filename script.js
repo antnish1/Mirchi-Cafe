@@ -203,9 +203,7 @@ async function generateBill() {
     // 🔥 SHOW PREVIEW BEFORE CLEARING
     showBillPreview(billId);
     
-    cart = [];
-    total = 0;
-    renderCart();
+
 
     await loadTodaySales();
 
@@ -372,6 +370,10 @@ function showBillPreview(billId) {
 
 function closeBill() {
   document.getElementById("billModal").style.display = "none";
+
+  cart = [];
+  total = 0;
+  renderCart();
 }
 
 
