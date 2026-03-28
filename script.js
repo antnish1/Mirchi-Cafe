@@ -389,10 +389,30 @@ function downloadBill() {
 }
 
 
-function shareBill() {
-  const text = document.getElementById("billContent").innerText;
+async function shareBill() {
+  const bill = document.getElementById("billContent");
 
-  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  html2canvas(bill).then(async canvas => {
+    canvas.toBlob(async (blob) => {
 
-  window.open(url, "_blank");
+      const file = new File([blob], "bill.jpg", { type: "image/jpeg" });
+
+      // 🔥 MOBILE SHARE (BEST)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Mirchi Cafe Bill",
+        });
+      } else {
+        // fallback → download
+        const link = document.createElement("a");
+        link.download = "bill.jpg";
+        link.href = URL.createObjectURL(blob);
+        link.click();
+
+        showPopup("Sharing not supported, downloaded instead", false);
+      }
+
+    }, "image/jpeg");
+  });
 }
