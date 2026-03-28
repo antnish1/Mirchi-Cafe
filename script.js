@@ -85,7 +85,8 @@ function loadCategories() {
     div.appendChild(btn);
   });
 
-  if (cats.length > 0) loadItems(cats[0]);
+  // show placeholder instead of auto loading items
+    showItemsPlaceholder();
 }
 
 // LOAD ITEMS
@@ -514,6 +515,28 @@ async function loadSummaryData(date) {
   } finally {
     hideLoader();
   }
+}
+
+
+function showItemsPlaceholder() {
+  const itemsDiv = document.getElementById("items");
+
+  itemsDiv.innerHTML = `
+    <div style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100%;
+      min-height:200px;
+      flex-direction:column;
+      opacity:0.7;
+    ">
+      <img src="logo.png" style="width:120px; margin-bottom:10px;">
+      <div style="font-size:14px; color:#64748b;">
+        Select a category
+      </div>
+    </div>
+  `;
 }
 
 
