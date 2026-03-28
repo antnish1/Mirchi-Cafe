@@ -5,27 +5,45 @@
 <title>MIRCHI CAFE POS</title>
 
 <style>
+
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: url('logo.png') no-repeat center center fixed;
-  background-size: cover;
+  background: #F1F5F9;  /* 🔥 clean modern */
 }
 
-/* BLUR OVERLAY */
-body::before {
-  content: "";
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(248,250,252,0.85);
-  backdrop-filter: blur(8px);
-  z-index: -1;
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 12px;
+  background: #0F172A;
+  color: white;
 }
 
-.total-box {
-  z-index: 10;   /* 🔥 ensures clickable */
+/* LOGO */
+.top-logo {
+  height: 40px;
+  width: auto;
+
+  max-width: 70%;
+  object-fit: contain;
 }
+
+/* TODAY SALE */
+.today-sale {
+  background: #22C55E;
+  padding: 6px 12px;
+  border-radius: 10px;
+
+  font-weight: 600;
+  font-size: 14px;
+}
+  
+
 
 .header-banner {
   width: 100%;
@@ -34,11 +52,11 @@ body::before {
   backdrop-filter: blur(10px);
 }
 
+/* TOTAL */
 .total-amount {
-  font-size: 26px;        /* 🔥 bigger */
-  font-weight: 700;       /* 🔥 bold */
+  font-size: 24px;
+  font-weight: 700;
   color: #0F172A;
-  margin-bottom: 6px;
 }
 
 .remove-btn {
@@ -92,7 +110,9 @@ body::before {
 }
 
 
-
+.app-container {
+  padding: 0 10px;   /* 🔥 SAME as bottom bar */
+}
 /* MAIN CARD */
 .main-card {
   margin: 10px;
@@ -108,6 +128,7 @@ body::before {
   margin: 10px;
   border-radius: 16px;
   overflow: hidden;
+  margin: 10px 0;
 }
 
 .tables button {
@@ -129,6 +150,7 @@ body::before {
   overflow-x: auto;
   gap: 10px;
   padding: 10px;
+  margin: 10px 0;
 }
 
 .categories button {
@@ -149,6 +171,7 @@ body::before {
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   padding: 10px;
+  margin: 10px 0;
 }
 
 .item {
@@ -174,7 +197,7 @@ body::before {
 
 /* CART */
 .cart-section {
-  margin: 10px;
+  margin: 10px 0;
   border-radius: 16px;
   background: white;
   padding: 12px;
@@ -197,19 +220,36 @@ body::before {
   bottom: 10px;
   left: 10px;
   right: 10px;
-  border-radius: 18px;
+
   background: white;
+  border-radius: 16px;
+
   padding: 12px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .bill-btn {
-  margin-top: 6px;
+  width: 100%;
   padding: 16px;
+
   border-radius: 14px;
   border: none;
-  width: 100%;
-  background: linear-gradient(135deg, #22C55E, #84CC16);
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background: #0F172A;   /* 🔥 solid premium */
   color: white;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  transition: 0.2s;
+}
+
+/* PRESS EFFECT */
+.bill-btn:active {
+  transform: scale(0.97);
+  background: #020617;
 }
 
 /* LOADER */
@@ -261,17 +301,19 @@ body::before {
 <body>
 
 <!-- HEADER -->
-<div class="header-banner">
-  <img src="logo.png" class="banner-logo">
-</div>
-
-<div class="header-info">
-  <div class="sales">Today Sale ₹ <span id="todaySale">0</span></div>
+<div class="top-bar">
+  <img src="logo.png" class="top-logo">
+  <div class="today-sale">
+    ₹ <span id="todaySale">0</span>
+  </div>
 </div>
 
 <!-- MAIN GLASS CARD -->
 <div class="main-card">
 
+
+
+  <div class="app-container">
   <!-- TABLES -->
   <div class="tables">
     <button onclick="selectTable(1,this)">T1</button>
@@ -298,7 +340,7 @@ body::before {
   <div class="total-amount">₹ <span id="total">0</span></div>
   <button class="bill-btn" onclick="generateBill()">Generate Bill</button>
 </div>
-
+</div>
 <!-- LOADER -->
 <div class="loader" id="loader">
   <div class="spinner"></div>
