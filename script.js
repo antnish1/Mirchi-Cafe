@@ -1,49 +1,32 @@
 let currentTable = null;
 let cart = [];
 let total = 0;
+let menuData = [];
 
-function selectTable(tableNo) {
-  currentTable = tableNo;
-  document.getElementById("tableTitle").innerText = "Table " + tableNo;
-}
+const API_URL = "https://script.google.com/macros/s/AKfycbzokbDWTGUIqSDLnYvpkAs5YXdCCPbbl0AdvQZLojNHRvvekGc4NBe_esPNr4hgACDq/exec";
 
-function addItem() {
-  const item = document.getElementById("item").value;
-  const qty = document.getElementById("qty").value;
+// 🔥 Load Menu from Google Sheet
+window.onload = function () {
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      menuData = data;
+      loadMenuDropdown();
+    });
+};
 
-  const price = getPrice(item); // from menu
-  const amount = price * qty;
+function loadMenuDropdown() {
+  const select = document.getElementById("item");
 
-  cart.push({ item, qty, price, amount });
-  total += amount;
-
-  renderCart();
-}
-
-function renderCart() {
-  let html = "";
-  cart.forEach(c => {
-    html += `<p>${c.item} x ${c.qty} = ₹${c.amount}</p>`;
+  menuData.forEach(item => {
+    let option = document.createElement("option");
+    option.value = item.name;
+    option.text = `${item.name} (₹${item.price})`;
+    select.appendChild(option);
   });
-
-  document.getElementById("cart").innerHTML = html;
-  document.getElementById("total").innerText = total;
 }
 
-function generateBill() {
-  fetch("YOUR_APPS_SCRIPT_URL", {
-    method: "POST",
-    body: JSON.stringify({
-      table: currentTable,
-      cart: cart,
-      total: total
-    })
-  })
-  .then(res => res.text())
-  .then(() => {
-    alert("Bill Generated!");
-    cart = [];
-    total = 0;
-    renderCart();
-  });
+function getPrice(itemName) {
+  const item = menuData.find(i => i.name === itemName);
+  return item ? item.price : 0;
 }
