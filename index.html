@@ -466,13 +466,24 @@ body {
 }
 
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* 🔥 MAIN ENTRY ANIMATION */
+@keyframes smoothIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
 }
 
-#items div {
-  animation: fadeIn 2.1s ease;
+/* APPLY TO ITEMS */
+.item {
+  animation: smoothIn 0.35s ease;
 }
   
 /* POPUP */
