@@ -195,7 +195,7 @@ async function generateBill() {
 
     const data = await res.json();
 
-    const billId = data.billId;
+    
     const billId = billCounter;
 
     billCounter++;
