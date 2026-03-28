@@ -1,142 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>FCV POS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCV POS</title>
 
-  <style>
+<style>
 body {
+  margin: 0;
   font-family: Arial;
   background: #f2f2f2;
-  margin: 0;
 }
 
 /* HEADER */
 header {
-  background: black;
+  background: #000;
   color: white;
   padding: 12px;
   text-align: center;
-  font-size: 18px;
 }
 
-/* TABLE BUTTONS */
+/* TABLES */
 .tables {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 10px;
+  display: flex;
 }
 
 .tables button {
-  padding: 16px;
-  font-size: 16px;
-  border-radius: 10px;
+  flex: 1;
+  padding: 14px;
   border: none;
   background: #007bff;
   color: white;
 }
 
-/* ACTIVE TABLE */
 .tables button.active {
   background: green;
 }
 
-/* MAIN */
-.container {
-  padding: 12px;
-}
-
-/* INPUTS */
-select, input {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-/* BUTTON */
-.add-btn {
-  width: 100%;
-  padding: 16px;
-  margin-top: 10px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-}
-
-/* CART */
-.cart {
-  margin-top: 12px;
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
-  max-height: 250px;
-  overflow-y: auto;
-}
-
-.cart-item {
+/* CATEGORY */
+.categories {
   display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  overflow-x: auto;
+  background: white;
 }
 
-/* TOTAL */
+.categories button {
+  padding: 10px;
+  border: none;
+  background: #eee;
+  margin: 5px;
+  border-radius: 20px;
+}
+
+/* ITEMS GRID */
+.items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.item {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* CART (BOTTOM FIXED) */
+.cart {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+}
+
 .total {
-  font-size: 20px;
-  margin-top: 10px;
   font-weight: bold;
 }
 
-/* BILL BUTTON */
 .bill-btn {
   width: 100%;
-  padding: 18px;
+  padding: 15px;
   background: orange;
-  color: white;
   border: none;
-  border-radius: 12px;
-  margin-top: 10px;
-  font-size: 18px;
-}
-
-/* MOBILE TOUCH IMPROVEMENT */
-button:active {
-  transform: scale(0.97);
+  color: white;
+  border-radius: 10px;
+  margin-top: 5px;
 }
 </style>
 </head>
 
 <body>
 
-<header>FCV Café POS</header>
+<header>FCV POS</header>
 
 <div class="tables">
-  <button onclick="selectTable(1, this)">Table 1</button>
-  <button onclick="selectTable(2, this)">Table 2</button>
-  <button onclick="selectTable(3, this)">Table 3</button>
+  <button onclick="selectTable(1, this)">T1</button>
+  <button onclick="selectTable(2, this)">T2</button>
+  <button onclick="selectTable(3, this)">T3</button>
 </div>
 
-<div class="container">
+<div class="categories" id="categories"></div>
 
-<h3 id="tableTitle">Select Table</h3>
+<div class="items" id="items"></div>
 
-<select id="item"></select>
-<input type="number" id="qty" placeholder="Enter Quantity">
-
-<button class="add-btn" onclick="addItem()">+ Add Item</button>
-
-<div class="cart" id="cart"></div>
-
-<div class="total">Total: ₹<span id="total">0</span></div>
-
-<button class="bill-btn" onclick="generateBill()">Generate Bill</button>
-
+<div class="cart">
+  <div id="cartItems"></div>
+  <div class="total">Total ₹<span id="total">0</span></div>
+  <button class="bill-btn" onclick="generateBill()">Generate Bill</button>
 </div>
 
 <script src="script.js"></script>
