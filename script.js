@@ -55,24 +55,23 @@ function loadCategories() {
 
 // LOAD ITEMS
 function loadItems(category) {
-  currentCategory = category;
-
   const itemsDiv = document.getElementById("items");
   itemsDiv.innerHTML = "";
 
   menu.filter(m => m.category === category)
-      .forEach(item => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-          <b>${item.name}</b><br>
-          ₹${item.price}
-        `;
+    .forEach(item => {
+      const div = document.createElement("div");
+      div.className = "item";
 
-        div.onclick = () => addItem(item);
+      div.innerHTML = `
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₹${item.price}</div>
+      `;
 
-        itemsDiv.appendChild(div);
-      });
+      div.onclick = () => addItem(item);
+
+      itemsDiv.appendChild(div);
+    });
 }
 
 // ADD ITEM
@@ -94,23 +93,16 @@ function addItem(item) {
   total = cart.reduce((sum, i) => sum + i.amount, 0);
   renderCart();
 }
+
+
 // RENDER CART
 function renderCart() {
   const div = document.getElementById("cartItems");
 
-  if (cart.length === 0) {
-    div.innerHTML = "<small>No items added</small>";
-    document.getElementById("total").innerText = 0;
-    return;
-  }
-
-  div.innerHTML = cart.map((c, index) => `
+  div.innerHTML = cart.map(c => `
     <div class="cart-item">
-      <span class="item-name">${c.item} x${c.qty}</span>
-      <div>
-        <span class="item-price">₹${c.amount}</span>
-        <button onclick="removeItem(${index})" class="remove-btn">✕</button>
-      </div>
+      <span>${c.item} x${c.qty}</span>
+      <span>₹${c.amount}</span>
     </div>
   `).join("");
 
@@ -129,46 +121,29 @@ function selectTable(t, el) {
 
 // GENERATE BILL
 async function generateBill() {
-  if (!currentTable) return showPopup("Select table", false);
-  if (cart.length === 0) return showPopup("Cart empty", false);
+  if (!currentTable) return alert("Select table");
+  if (cart.length === 0) return alert("Empty cart");
 
-  showLoader(); // 🔥 start loader
+  showLoader();
 
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        table: currentTable,
-        cart: cart,
-        total: total
-      })
-    });
+  const res = await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      table: currentTable,
+      cart: cart,
+      total: total
+    })
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    if (data.status !== "success") {
-      hideLoader();
-      showPopup(data.message, false);
-      return;
-    }
+  cart = [];
+  total = 0;
+  renderCart();
 
-    // 🔥 simulate processing feel
-    setTimeout(async () => {
-      await loadTodaySales();
+  await loadTodaySales();
 
-      cart = [];
-      total = 0;
-      renderCart();
-
-      hideLoader();
-      showPopup("Bill Generated: " + data.billId, true);
-
-    }, 500);
-
-  } catch (err) {
-    hideLoader();
-    showPopup("Error generating bill", false);
-  }
+  hideLoader();
 }
 
 function showLoader() {
