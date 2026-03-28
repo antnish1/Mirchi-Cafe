@@ -1,5 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyg8pQC29qyMFHyqFCbs0E3ldOTD7snYF5UGHlAsX6_72yemm61M9d39hy2mS771iws_w/exec";
-
+const API_URL = "https://script.google.com/macros/s/AKfycbyg8pQC29qyMFHyqFCbs0E3ldOTD7snYF5UGHlAsX6_72yemm61M9d39hy2mS771iws_w/exec" + "?t=" + new Date().getTime();
 let menu = [];
 let cart = [];
 let total = 0;
@@ -8,10 +7,22 @@ let currentTable = null;
 
 // LOAD MENU
 window.onload = async () => {
-  const res = await fetch(API_URL);
-  menu = await res.json();
+  try {
+    const res = await fetch(API_URL, {
+      method: "GET",
+      mode: "cors",
+      redirect: "follow"
+    });
 
-  loadCategories();
+    const text = await res.text();   // 👈 important
+    menu = JSON.parse(text);         // 👈 manual parse
+
+    loadCategories();
+
+  } catch (err) {
+    alert("Menu loading failed ❌ " + err);
+    console.error(err);
+  }
 };
 
 // CATEGORY BUTTONS
