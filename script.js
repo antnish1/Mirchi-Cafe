@@ -446,55 +446,73 @@ async function openSummary() {
 
 async function loadSummaryData(date) {
   try {
-    // 🔥 STATS
-    const statsRes = await fetch(API_URL + "&type=summary");
+    showLoader();
+
+    // 🔥 FETCH SUMMARY (FILTERED BY DATE)
+    const statsRes = await fetch(API_URL + `&type=summary&date=${date}`);
     const stats = await statsRes.json();
 
+    const total = stats.total || 0;
+    const bills = stats.bills || 0;
+
     document.getElementById("summaryStats").innerHTML = `
-      <div style="display:flex; justify-content:space-between;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
         <span>Total Sales</span>
-        <strong>₹${stats.total}</strong>
+        <strong>₹${total}</strong>
       </div>
+
       <div style="display:flex; justify-content:space-between;">
         <span>Total Bills</span>
-        <strong>${stats.bills}</strong>
+        <strong>${bills}</strong>
       </div>
     `;
 
-    // 🔥 DETAILS
+    // 🔥 FETCH DETAILS (FILTERED)
     const res = await fetch(API_URL + `&type=details&date=${date}`);
     const data = await res.json();
 
     const listDiv = document.getElementById("summaryList");
 
-    if (data.length === 0) {
-      listDiv.innerHTML = "<small>No records</small>";
+    if (!Array.isArray(data) || data.length === 0) {
+      listDiv.innerHTML = `
+        <div style="text-align:center; padding:10px; color:#64748b;">
+          No records for selected date
+        </div>
+      `;
       return;
     }
+
+    // 🔥 SORT LATEST FIRST (IMPORTANT UX)
+    data.reverse();
 
     listDiv.innerHTML = data.map(b => `
       <div style="
         display:flex;
         justify-content:space-between;
-        padding:8px;
-        margin-bottom:6px;
-        background:#f1f5f9;
-        border-radius:10px;
+        align-items:center;
+        padding:10px;
+        margin-bottom:8px;
+        background:linear-gradient(145deg,#f8fafc,#eef2f7);
+        border-radius:12px;
+        box-shadow:0 2px 6px rgba(0,0,0,0.05);
       ">
         <div>
-          <div><strong>#${b.billId}</strong></div>
-          <small>Table ${b.table}</small>
+          <div style="font-weight:600;">#${b.billId}</div>
+          <small style="color:#64748b;">Table ${b.table}</small>
         </div>
 
         <div style="text-align:right;">
-          <div>₹${b.total}</div>
-          <small>${b.time}</small>
+          <div style="font-weight:600;">₹${b.total}</div>
+          <small style="color:#64748b;">${b.time || ""}</small>
         </div>
       </div>
     `).join("");
 
   } catch (err) {
-    showPopup("Failed to load details", false);
+    console.error(err);
+    showPopup("Failed to load summary", false);
+  } finally {
+    hideLoader();
   }
 }
 
