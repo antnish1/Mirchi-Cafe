@@ -33,7 +33,7 @@ window.onload = async () => {
   hideLoader();
 };
   
-};
+
 
 // CATEGORY BUTTONS
 function loadCategories() {
