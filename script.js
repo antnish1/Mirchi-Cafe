@@ -92,7 +92,8 @@ function loadCategories() {
 // LOAD ITEMS
 function loadItems(category) {
   const itemsDiv = document.getElementById("items");
-  itemsDiv.innerHTML = "";
+    itemsDiv.style.display = "grid";  // 🔥 IMPORTANT
+    itemsDiv.innerHTML = "";
 
   menu.filter(m => m.category === category)
     .forEach(item => {
