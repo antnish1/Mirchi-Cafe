@@ -70,13 +70,28 @@ header {
   
 /* CATEGORY */
 .categories {
-  background: #FFFFFF;
-  border-top: 1px solid #E5E7EB;
-  border-bottom: 1px solid #E5E7EB;
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 10px;
+  background: #F8FAFC;
 }
+
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+  
 .categories button {
-  background: #F1F5F9;
+  flex: 0 0 auto;
+  padding: 10px 16px;         /* 🔥 bigger */
+  border-radius: 999px;
+  border: none;
+  background: #E2E8F0;
+  font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
+  transition: 0.2s;
 }
 
 
@@ -85,7 +100,7 @@ header {
   color: white;
 }
 
-
+  
 .top-section {
   background: #FFFFFF;
   padding: 10px;
