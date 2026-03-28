@@ -124,3 +124,24 @@ async function generateBill() {
   total = 0;
   renderCart();
 }
+
+
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
+function showPopup(msg, success = true) {
+  const popup = document.getElementById("popup");
+  popup.innerText = msg;
+  popup.style.display = "block";
+
+  popup.style.borderTop = success ? "5px solid green" : "5px solid red";
+
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 2000);
+}
