@@ -92,22 +92,27 @@ function loadCategories() {
 // LOAD ITEMS
 function loadItems(category) {
   const itemsDiv = document.getElementById("items");
-    itemsDiv.style.display = "grid";  // 🔥 IMPORTANT
-    itemsDiv.innerHTML = "";
 
-  menu.filter(m => m.category === category)
-    .forEach((item, index) => {
+  itemsDiv.style.display = "grid";
+  itemsDiv.innerHTML = "";
+
+  menu
+    .filter(m => m.category === category)
+    .forEach((item, index) => {   // ✅ FIX HERE
+
       const div = document.createElement("div");
       div.className = "item";
+
+      // stagger animation
       div.style.animationDelay = `${index * 0.05}s`;
 
-    div.innerHTML = `
-      <div class="item-icon">
-        ${categoryIcons[item.category] || "🍽️"}
-      </div>
-      <div class="item-name">${item.name}</div>
-      <div class="item-price">₹${item.price}</div>
-    `;
+      div.innerHTML = `
+        <div class="item-icon">
+          ${categoryIcons[item.category] || "🍽️"}
+        </div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₹${item.price}</div>
+      `;
 
       div.onclick = () => addItem(item);
 
