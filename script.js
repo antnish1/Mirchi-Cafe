@@ -194,6 +194,11 @@ async function generateBill() {
 
     const data = await res.json();
 
+    const billId = data.billId;
+
+    // 🔥 SHOW PREVIEW BEFORE CLEARING
+    showBillPreview(billId);
+    
     cart = [];
     total = 0;
     renderCart();
@@ -288,4 +293,38 @@ function sendWhatsAppBill(billId) {
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   window.open(url, "_blank");
+}
+
+
+
+function showBillPreview(billId) {
+  const div = document.getElementById("billContent");
+
+  let html = `
+    <h3 style="text-align:center;">Mirchi Cafe</h3>
+    <p>Bill ID: ${billId}</p>
+    <hr>
+  `;
+
+  cart.forEach(c => {
+    html += `
+      <div style="display:flex; justify-content:space-between;">
+        <span>${c.item} x${c.qty}</span>
+        <span>₹${c.amount}</span>
+      </div>
+    `;
+  });
+
+  html += `
+    <hr>
+    <h3>Total: ₹${total}</h3>
+  `;
+
+  div.innerHTML = html;
+
+  document.getElementById("billModal").style.display = "flex";
+}
+
+function closeBill() {
+  document.getElementById("billModal").style.display = "none";
 }
