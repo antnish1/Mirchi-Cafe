@@ -4,7 +4,22 @@ let cart = [];
 let total = 0;
 let currentCategory = "";
 let currentTable = null;
-
+const categoryIcons = {
+  "BURGER": "🍔",
+  "CHINESE": "🥡",
+  "COFFEE": "☕",
+  "KATHI ROLL": "🌯",
+  "MOCKTAILS": "🍹",
+  "MOMOS": "🥟",
+  "PASTA": "🍝",
+  "PIZZA": "🍕",
+  "SANDWICH": "🥪",
+  "SHAKE": "🥤",
+  "STARTER": "🍟",
+  "TEA": "🍵",
+  "MAGGI": "🍜",
+  "FRIED RICE": "🍚"
+};
 // LOAD MENU
 window.onload = async () => {
   showLoader();
@@ -56,7 +71,7 @@ function loadCategories() {
 
   cats.forEach(cat => {
     const btn = document.createElement("button");
-    btn.innerText = cat;
+    btn.innerText = `${categoryIcons[cat] || "🍽️"} ${cat}`;
 
     btn.onclick = () => {
       document.querySelectorAll(".categories button")
@@ -82,10 +97,13 @@ function loadItems(category) {
       const div = document.createElement("div");
       div.className = "item";
 
-      div.innerHTML = `
-        <div class="item-name">${item.name}</div>
-        <div class="item-price">₹${item.price}</div>
-      `;
+    div.innerHTML = `
+      <div class="item-icon">
+        ${categoryIcons[item.category] || "🍽️"}
+      </div>
+      <div class="item-name">${item.name}</div>
+      <div class="item-price">₹${item.price}</div>
+    `;
 
       div.onclick = () => addItem(item);
 
