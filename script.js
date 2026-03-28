@@ -121,19 +121,21 @@ function selectTable(t, el) {
 
 // GENERATE BILL
 async function generateBill() {
+  console.log("Button clicked"); // 🔍 debug
+
+  if (!currentTable) {
+    showPopup("Select table", false);
+    return;
+  }
+
+  if (cart.length === 0) {
+    showPopup("Cart empty", false);
+    return;
+  }
+
+  showLoader();
+
   try {
-    if (!currentTable) {
-      showPopup("Select table", false);
-      return;
-    }
-
-    if (cart.length === 0) {
-      showPopup("Cart empty", false);
-      return;
-    }
-
-    showLoader();
-
     const res = await fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({
@@ -145,9 +147,7 @@ async function generateBill() {
 
     const data = await res.json();
 
-    if (data.status !== "success") {
-      throw new Error(data.message);
-    }
+    console.log(data); // 🔍 debug
 
     cart = [];
     total = 0;
@@ -160,30 +160,46 @@ async function generateBill() {
 
   } catch (err) {
     hideLoader();
-    showPopup("Error: " + err.message, false);
     console.error(err);
+    showPopup("Error generating bill", false);
   }
 }
+
+
+
 function showLoader() {
-  document.getElementById("loader").style.display = "flex";
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.style.display = "flex";
+  } else {
+    console.error("Loader not found");
+  }
 }
 
 function hideLoader() {
-  document.getElementById("loader").style.display = "none";
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
 }
 
-function showPopup(msg, success = true) {
+function showPopup(message, success = true) {
   const popup = document.getElementById("popup");
-  popup.innerText = msg;
+
+  if (!popup) {
+    alert(message); // fallback
+    return;
+  }
+
+  popup.innerText = message;
   popup.style.display = "block";
 
-  popup.style.borderTop = success ? "5px solid green" : "5px solid red";
+  popup.style.borderTop = success
+    ? "4px solid #22C55E"
+    : "4px solid #EF4444";
 
   setTimeout(() => {
     popup.style.display = "none";
   }, 2000);
 }
-
 
 async function loadTodaySales() {
   try {
