@@ -19,7 +19,11 @@ const categoryIcons = {
   "STARTER": "🍟",
   "TEA": "🍵",
   "MAGGI": "🍜",
-  "FRIED RICE": "🍚"
+  "FRIED RICE": "🍚",
+  "CIGARETTE": "🚬",
+  "COLDDRINK": "🧋",
+  "WATER": "🥛",
+  
 };
 // LOAD MENU
 window.onload = async () => {
